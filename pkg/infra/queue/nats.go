@@ -10,7 +10,7 @@ import (
 )
 
 var natsConnection *nats.Conn
-var natsJetstream jetstream.JetStream
+var natsJetStream jetstream.JetStream
 
 func ConnectNats(ctx context.Context, uri string, name string) error {
 	if natsConnection != nil {
@@ -30,12 +30,30 @@ func ConnectNats(ctx context.Context, uri string, name string) error {
 	}
 
 	natsConnection = conn
-	natsJetstream = js
+	natsJetStream = js
 
-	natsJetstream.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+	natsJetStream.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
 		Name:     name,
 		Subjects: []string{fmt.Sprintf("%s.*", name)},
 	})
 
 	return nil
+}
+
+func GetNatsConnection() *nats.Conn {
+	if natsConnection == nil {
+		log.Fatalf("NATS connection is not initialized")
+	}
+
+	return natsConnection
+}
+
+func CloseNatsConnection() jetstream.JetStream {
+	if natsConnection != nil {
+		natsConnection.Close()
+		natsConnection = nil
+		natsJetStream = nil
+	}
+
+	return natsJetStream
 }
