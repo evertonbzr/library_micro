@@ -8,7 +8,6 @@ import (
 
 	"github.com/evertonbzr/library_micro/cmd/module/user/config"
 	"github.com/evertonbzr/library_micro/internal/user/api"
-	"github.com/evertonbzr/library_micro/internal/user/model"
 	"github.com/evertonbzr/library_micro/internal/user/subscriber"
 	"github.com/evertonbzr/library_micro/pkg/infra/db"
 	"github.com/evertonbzr/library_micro/pkg/infra/queue"
@@ -39,11 +38,11 @@ func main() {
 	}
 	slog.Info("Database connected PostgreSQL")
 
-	if config.IsDevelopment() {
-		if err := db.Migrate(&model.User{}); err != nil {
-			log.Fatalf("Error on migrate %s", err)
-		}
-	}
+	// if config.IsDevelopment() {
+	// 	if err := db.Migrate(&model.User{}); err != nil {
+	// 		log.Fatalf("Error on migrate %s", err)
+	// 	}
+	// }
 
 	queue.ListenSubscriber(subscriber.GetAll()...)
 

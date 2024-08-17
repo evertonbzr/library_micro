@@ -1,0 +1,19 @@
+meta {
+  name: Sign In
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/sign-in
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Everton",
+    "email": "everton@mail.com",
+    "password": "password"
+  }
+}
