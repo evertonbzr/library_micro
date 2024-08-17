@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -22,7 +23,7 @@ type APIConfig struct {
 	Port string
 }
 
-func Start(cfg *APIConfig) {
+func Start(ctxControl *context.Context, cfg *APIConfig) {
 	app := fiber.New()
 
 	app.Use(logger.New())
@@ -37,7 +38,7 @@ func Start(cfg *APIConfig) {
 	}
 
 	go func() {
-		if err := srv.ListenAndServe(fmt.Sprintf(":%s", cfg.Port)); err != nil {
+		if err := srv.ListenAndServe(fmt.Sprintf(":%s", cfg.Port)); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("Error on listen and serve %s", err)
 		}
 	}()
@@ -48,7 +49,7 @@ func Start(cfg *APIConfig) {
 	<-quit
 	log.Println("Shutdown Server ...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(*ctxControl, 5*time.Second)
 	defer cancel()
 	if err := srv.ShutdownWithContext(ctx); err != nil {
 		log.Fatal("Server Shutdown:", err)

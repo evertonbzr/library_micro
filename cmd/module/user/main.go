@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/evertonbzr/library_micro/cmd/module/user/config"
+	api "github.com/evertonbzr/library_micro/internal/user/api"
 	"github.com/evertonbzr/library_micro/internal/user/subscriber"
 	"github.com/evertonbzr/library_micro/pkg/infra/db"
 	"github.com/evertonbzr/library_micro/pkg/infra/queue"
@@ -20,7 +21,7 @@ func main() {
 	ctx := context.Background()
 
 	// Connect to nats
-	if err := queue.ConnectNats(ctx, config.NATS_URI, config.NAME); err != nil {
+	if err := queue.ConnectNats(&ctx, config.NATS_URI, config.NAME); err != nil {
 		log.Fatalf("Error on nats connect %s", config.NATS_URI)
 	}
 	slog.Info("Nats connected", "uri", config.NATS_URI)
@@ -43,7 +44,9 @@ func main() {
 
 	queue.ListenSubscriber(subscriber.GetAll()...)
 
-	c := make(chan os.Signal, 1)
+	apiCfg := &api.APIConfig{
+		Port: config.PORT,
+	}
 
-	<-c
+	api.Start(apiCfg)
 }

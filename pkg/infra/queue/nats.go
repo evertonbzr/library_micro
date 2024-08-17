@@ -14,8 +14,9 @@ import (
 var natsConnection *nats.Conn
 var natsJetStream jetstream.JetStream
 var streamName string
+var contextStream *context.Context
 
-func ConnectNats(ctx context.Context, uri string, name string) error {
+func ConnectNats(ctx *context.Context, uri string, name string) error {
 	if natsConnection != nil {
 		return nil
 	}
@@ -35,8 +36,9 @@ func ConnectNats(ctx context.Context, uri string, name string) error {
 	natsConnection = conn
 	natsJetStream = js
 	streamName = name
+	contextStream = ctx
 
-	natsJetStream.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+	natsJetStream.CreateOrUpdateStream(*ctx, jetstream.StreamConfig{
 		Name:     name,
 		Subjects: []string{fmt.Sprintf("%s.*", name)},
 	})
@@ -50,6 +52,14 @@ func GetNatsConnection() *nats.Conn {
 	}
 
 	return natsConnection
+}
+
+func GetContext() *context.Context {
+	if contextStream == nil {
+		log.Fatalf("Context is not initialized")
+	}
+
+	return contextStream
 }
 
 func GetJetStream() jetstream.JetStream {
