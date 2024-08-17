@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/evertonbzr/library_micro/internal/user/handler"
+	"github.com/evertonbzr/library_micro/internal/user/api/handler"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/healthcheck"
 	"github.com/gofiber/fiber/v2/middleware/helmet"
@@ -57,6 +57,7 @@ func Start(cfg *APIConfig) {
 	log.Println("Shutdown Server ...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+
 	defer cancel()
 	if err := srv.ShutdownWithContext(ctx); err != nil {
 		log.Fatal("Server Shutdown:", err)

@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/evertonbzr/library_micro/cmd/module/user/config"
+	"github.com/evertonbzr/library_micro/internal/user/subscriber"
 	"github.com/evertonbzr/library_micro/pkg/infra/db"
 	"github.com/evertonbzr/library_micro/pkg/infra/queue"
 	"github.com/evertonbzr/library_micro/pkg/infra/redis"
@@ -39,6 +40,8 @@ func main() {
 	if config.IsDevelopment() {
 		db.Migrate()
 	}
+
+	queue.ListenSubscriber(subscriber.GetAll()...)
 
 	c := make(chan os.Signal, 1)
 

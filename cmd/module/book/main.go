@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/evertonbzr/library_micro/cmd/module/user/config"
+	"github.com/evertonbzr/library_micro/cmd/module/book/config"
 	"github.com/evertonbzr/library_micro/pkg/infra/db"
 	"github.com/evertonbzr/library_micro/pkg/infra/queue"
 	"github.com/evertonbzr/library_micro/pkg/infra/redis"
