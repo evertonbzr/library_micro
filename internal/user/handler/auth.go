@@ -1,12 +1,18 @@
 package handler
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/evertonbzr/library_micro/internal/user/repository"
+	"github.com/gofiber/fiber/v2"
+)
 
 type AuthHandler struct {
+	userRepository repository.UserRepository
 }
 
 func NewAuthHandler() *AuthHandler {
-	return &AuthHandler{}
+	return &AuthHandler{
+		userRepository: *repository.NewUserRepository(),
+	}
 }
 
 func (h *AuthHandler) SignIn() fiber.Handler {
