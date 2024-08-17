@@ -17,6 +17,11 @@ func (u *UserRepository) GetUserById(id int) (user *model.User, err error) {
 	return user, err
 }
 
+func (u *UserRepository) GetUserByEmail(email string) (user *model.User, err error) {
+	user = &model.User{}
+	err = db.GetDB().Where("email = ?", email).First(user).Error
+	return user, err
+}
 func (u *UserRepository) CreateUser(user *model.User) (err error) {
 	err = db.GetDB().Create(user).Error
 	return err

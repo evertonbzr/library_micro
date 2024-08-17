@@ -2,6 +2,7 @@ package queue
 
 import (
 	"fmt"
+	"log"
 	"log/slog"
 
 	"github.com/nats-io/nats.go"
@@ -67,7 +68,10 @@ func createSubscriberQueue(subscriber *SubscriberQueue) string {
 }
 
 func createSubscriberPubSub(subscriber *SubscriberPubSub) {
-	// SubscriberToPubSub(subscriber.subject, subscriber.handler)
+	_, err := natsConnection.Subscribe(subscriber.subject, subscriber.handler)
+	if err != nil {
+		log.Fatalf("Failed to subscribe to subject %s: %v", subscriber.subject, err)
+	}
 }
 
 func ListenSubscriber(subscribers ...interface{}) {

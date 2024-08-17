@@ -19,7 +19,7 @@ func main() {
 	ctx := context.Background()
 
 	// Connect to nats
-	if err := queue.ConnectNats(ctx, config.NATS_URI, config.NAME); err != nil {
+	if err := queue.ConnectNats(&ctx, config.NATS_URI, config.NAME); err != nil {
 		log.Fatalf("Error on nats connect %s", config.NATS_URI)
 	}
 	slog.Info("Nats connected", "uri", config.NATS_URI)
