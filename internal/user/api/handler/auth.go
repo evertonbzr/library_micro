@@ -2,9 +2,9 @@ package handler
 
 import (
 	"github.com/evertonbzr/library_micro/internal/user/api/types"
-	"github.com/evertonbzr/library_micro/internal/user/model"
 	"github.com/evertonbzr/library_micro/internal/user/repository"
 	"github.com/evertonbzr/library_micro/internal/user/util"
+	"github.com/evertonbzr/library_micro/pkg/model"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
 )

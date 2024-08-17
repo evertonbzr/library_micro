@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/evertonbzr/library_micro/internal/user/model"
 	"github.com/evertonbzr/library_micro/pkg/infra/db"
+	"github.com/evertonbzr/library_micro/pkg/model"
 )
 
 type UserRepository struct{}

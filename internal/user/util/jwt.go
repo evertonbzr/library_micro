@@ -5,8 +5,7 @@ import (
 	"time"
 
 	"github.com/evertonbzr/library_micro/cmd/module/user/config"
-	"github.com/evertonbzr/library_micro/internal/user/model"
-	m "github.com/evertonbzr/library_micro/pkg/model"
+	"github.com/evertonbzr/library_micro/pkg/model"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -19,7 +18,7 @@ func GenerateJwt(user *model.User) (string, error) {
 
 	token := jwt.NewWithClaims(
 		jwt.SigningMethodHS256,
-		m.ModuleClaims{
+		model.ModuleClaims{
 			RegisteredClaims: jwt.RegisteredClaims{
 				ExpiresAt: jwt.NewNumericDate(expTime),
 			},
